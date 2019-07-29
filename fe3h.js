@@ -112,6 +112,10 @@ $(document).ready(function() {
                     
                     modified[0x650 + i * 0x230 + 0x32 + 2 * j] = mXp & 0xff;
                     modified[0x650 + i * 0x230 + 0x32 + 2 * j + 1] = mXp >> 8;
+                    
+                    // why is this data stored twice?
+                    modified[0x650 + i * 0x230 + 0xfc + 2 * j] = mXp & 0xff;
+                    modified[0x650 + i * 0x230 + 0xfc + 2 * j + 1] = mXp >> 8;
                 }
             }
         }
@@ -186,6 +190,7 @@ function showData() {
         for (var j = 0; j < skills.length; j++) {
             var dLv = v[0x650 + i * 0x230 + 0x88 + j];
             var dXp = v[0x650 + i * 0x230 + 0x32 + 2 * j] + (v[0x650 + i * 0x230 + 0x33 + 2 * j] << 8);
+            var dXp2 = v[0x650 + i * 0x230 + 0xfc + 2 * j] + (v[0x650 + i * 0x230 + 0xfd + 2 * j] << 8);
             
             str += '<td>' + dLv.toString() + "</td>";
             
@@ -199,7 +204,7 @@ function showData() {
                 }
                 str += mXp.toString() + "</td>";
             } else {
-                str += '<td>' + dXp.toString() + "</td>";
+                str += '<td>' + dXp.toString() + " / " + dXp2.toString() + "</td>";
             }
         }
         
